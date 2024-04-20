@@ -1,14 +1,19 @@
-import javax.swing.*;
-
+//#region IMPORTS
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.*;
-import java.util.Random;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+//#endregion
 
 @SuppressWarnings("unused")
 class LibraryMS {
@@ -42,6 +47,8 @@ class LibraryMS {
     private final int MAIN_MENU = 1;
     private final int STUDENT_LOGIN = 2;
     private final int STAFF_LOGIN = 3;
+    private final int LIBRARY_DATABASE = 4;
+    private final int ADMIN_PANEL = 5;
 
     // custom colors
     private final Color BG_CLR = new Color(46, 44, 48);
@@ -66,7 +73,7 @@ class LibraryMS {
         this.loginLabel = new JLabel("", JLabel.CENTER);
         this.usrLabel = new JLabel("");
         this.pwdLabel = new JLabel("");
-        this.loginStatusLabel = new JLabel("");
+        this.loginStatusLabel = new JLabel("", JLabel.CENTER);
         this.usrField = new JTextField(20);
         this.pwdField = new JPasswordField(20);
         this.studentButton = new JButton("Student Login");
@@ -265,7 +272,9 @@ class LibraryMS {
         return this.currentScreen;
     }
 
-    class LibraryConstraints extends GridBagConstraints {
+
+    // Convienience Methods for GridBagConstraints objects
+    class LibraryConstraints extends GridBagConstraints { 
 
         public void setGridXY(int x, int y) {
             this.gridx = x;
