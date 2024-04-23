@@ -9,8 +9,8 @@ public class Book extends Inventory {
     private String publisher;
     private String author;
 
-    public Book(int id, String genre, String title, int yr, int type, int isbn, String publisher, String author) {
-        super(id, genre, title, yr);
+    public Book(String genre, String title, int yr, int isbn, String publisher, String author) {
+        super(genre, title, yr);
         this.isbn = isbn;
         this.publisher = publisher;
         this.author = author;

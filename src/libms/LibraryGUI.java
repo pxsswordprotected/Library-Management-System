@@ -21,11 +21,11 @@ import javax.swing.JTextField;
  *
  * @author Grant Swift
  */
-@SuppressWarnings("unused")
-class LoginMenu {
+public class LibraryGUI {
 
     // #region Instance Variables
     private JFrame frame;
+    
     private JPanel mainPanel;
     private JPanel titlePanel;
     private JPanel buttonsPanel;
@@ -33,32 +33,37 @@ class LoginMenu {
     private JPanel usrPanel;
     private JPanel pwdPanel;
     private JPanel loginButtonPanel;
+
     private JButton backButton;
     private JButton studentButton;
     private JButton staffButton;
     private JButton loginButton;
+
     private JLabel titleLabel;
     private JLabel usrLabel;
     private JLabel pwdLabel;
     private JLabel loginLabel;
     private JLabel loginStatusLabel;
-    private JTextField usrField;
-    private JPasswordField pwdField;
+
     private LibraryConstraints mainConstraints;
     private LibraryConstraints loginConstraints;
     private LibraryConstraints buttonConstraints;
+
+    private JTextField usrField;
+    
+    private JPasswordField pwdField;
+
     private int currentScreen;
 
     // const variables for currentScreen
     private final int MAIN_MENU = 1;
     private final int STUDENT_LOGIN = 2;
     private final int STAFF_LOGIN = 3;
-    private final int LIBRARY_DATABASE = 4;
+    private final int INVENTORY_SEARCH = 4;
     private final int ADMIN_PANEL = 5;
-
     // #endregion
 
-    private LoginMenu() {
+    public LibraryGUI() {
         this.frame = new JFrame();
         this.mainPanel = new JPanel();
         this.titlePanel = new JPanel();
@@ -84,21 +89,16 @@ class LoginMenu {
         this.currentScreen = MAIN_MENU;
     }
 
-    public static void main(String[] args) {
-        LoginMenu gui = new LoginMenu();
-        gui.go();
-    }
-
-    private void go() {
+    public void go() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Library Management System");
+        frame.setTitle("DBMU Library");
         frame.setLayout(new GridLayout(1, 1));
         mainPanel.setLayout(new GridBagLayout());
         mainConstraints.setGridXY(0, 0);
         mainConstraints.anchor = GridBagConstraints.CENTER;
 
         titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        titleLabel.setText("Welcome to the DBM University Library!");
+        titleLabel.setText("Welcome to the Database Management University Library!");
         titlePanel.add(titleLabel);
         mainPanel.add(titlePanel, mainConstraints);
         mainConstraints.setGridXY(0, 1);
@@ -134,6 +134,26 @@ class LoginMenu {
         frame.setVisible(true);
     }
 
+    public void shift(int screen) {
+        switch (screen) {
+            case ADMIN_PANEL:
+                AdminPanel ap = new AdminPanel();
+                ap.go();
+                break;
+            case INVENTORY_SEARCH:
+                InventorySearch inv = new InventorySearch();
+                inv.go();
+                break;
+            default:
+                System.out.println("Invalid screen shift attempted");
+                break;
+        }
+    }
+    public int getCurrentScreen() {
+        return this.currentScreen;
+    }
+
+    // Button Listeners
     class StudentListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             currentScreen = STUDENT_LOGIN;
@@ -169,7 +189,6 @@ class LoginMenu {
             mainPanel.repaint();
         }
     }
-
     class StaffListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             currentScreen = STAFF_LOGIN;
@@ -206,8 +225,7 @@ class LoginMenu {
             mainPanel.revalidate();
             mainPanel.repaint();
         }
-    }
-
+    }   
     class BackListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             currentScreen = MAIN_MENU;
@@ -233,7 +251,6 @@ class LoginMenu {
 
         }
     }
-
     class LoginListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             loginConstraints.setGridXY(0, 4);
@@ -248,7 +265,8 @@ class LoginMenu {
                         break;
 
                     case STAFF_LOGIN:
-                        // send to admin page
+                        shift(ADMIN_PANEL);
+                        frame.dispose();
                         break;
                 
                     default:
@@ -268,12 +286,8 @@ class LoginMenu {
         }
     }
 
-    public int getCurrentScreen() {
-        return this.currentScreen;
-    }
-
     // Convienience Methods for GridBagConstraints objects
-    class LibraryConstraints extends GridBagConstraints { 
+    public class LibraryConstraints extends GridBagConstraints { 
 
         public void setGridXY(int x, int y) {
             this.gridx = x;
@@ -296,4 +310,8 @@ class LoginMenu {
         }
     }
 
+    public static void main(String[] args) {
+        LibraryGUI gui = new LibraryGUI();
+        gui.go();
+    }
 }

@@ -9,8 +9,8 @@ public class Movie extends Inventory{
     private String director;
     private String producer;
     
-    public Movie(int id, String genre, String title, int yr, int type, int isan, String dir, String prod) {
-        super(id, genre, title, yr);
+    public Movie(String genre, String title, int yr, int isan, String dir, String prod) {
+        super(genre, title, yr);
         this.isan = isan;
         this.director = dir;
         this.producer = prod;

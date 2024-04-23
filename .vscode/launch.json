@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "LibraryGUI",
+            "request": "launch",
+            "mainClass": "libms.LibraryGUI",
+            "projectName": "Library-Management-System_6d00b3df"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

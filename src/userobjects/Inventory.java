@@ -75,8 +75,7 @@ public class Inventory {
                 break;
         }
     }
-    public Inventory(int id, String genre, String title, int yr) { //helper constructor for book/movie classes
-        this.id = id;
+    public Inventory(String genre, String title, int yr) { //helper constructor for book/movie classes
         this.genre = genre;
         this.title = title;
         this.year = yr;
