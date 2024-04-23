@@ -1,3 +1,5 @@
+package libms;
+
 //#region IMPORTS
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -15,8 +17,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 //#endregion
 
+/**
+ *
+ * @author Grant Swift
+ */
 @SuppressWarnings("unused")
-class LibraryMS {
+class LoginMenu {
 
     // #region Instance Variables
     private JFrame frame;
@@ -50,14 +56,9 @@ class LibraryMS {
     private final int LIBRARY_DATABASE = 4;
     private final int ADMIN_PANEL = 5;
 
-    // custom colors
-    private final Color BG_CLR = new Color(46, 44, 48);
-    private final Color BUTTON_CLR = new Color(98, 97, 99);
-
-
     // #endregion
 
-    private LibraryMS() {
+    private LoginMenu() {
         this.frame = new JFrame();
         this.mainPanel = new JPanel();
         this.titlePanel = new JPanel();
@@ -84,7 +85,7 @@ class LibraryMS {
     }
 
     public static void main(String[] args) {
-        LibraryMS gui = new LibraryMS();
+        LoginMenu gui = new LoginMenu();
         gui.go();
     }
 
@@ -129,7 +130,6 @@ class LibraryMS {
         frame.add(mainPanel);
         frame.pack();
         frame.setSize(500, 300);
-        frame.getContentPane().setBackground(BG_CLR);
         frame.setResizable(false);
         frame.setVisible(true);
     }
@@ -271,7 +271,6 @@ class LibraryMS {
     public int getCurrentScreen() {
         return this.currentScreen;
     }
-
 
     // Convienience Methods for GridBagConstraints objects
     class LibraryConstraints extends GridBagConstraints { 
