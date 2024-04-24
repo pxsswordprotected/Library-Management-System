@@ -6,10 +6,6 @@ Introduction: Our library management system is envisioned as a comprehensive man
 
 ## Application Specifications
 
-* ### Guest Functionalities
-
-  * **Book/Movie Catalog and Search:** Provide a searchable catalog of available books and movies, allowing guests to browse by title, author, genre, and more.
-
 * ### Student Functionalities
 
   * **User Registration and Authentication:** Using a student ID and a password users can sign up for and login to their accounts.
