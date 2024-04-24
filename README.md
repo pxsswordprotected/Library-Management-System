@@ -26,4 +26,6 @@ Introduction: Our library management system is envisioned as a comprehensive man
   
   * **Manage Registered Students:** When Logged in to their administrator accounts, staff can view a list of all students registered at the library along with their contact info, items rented out, overdue fees, etc.
 
-  * **Search For Specific Rentals** Provide a reliable search/sort system so that staff are able to quickly locate those who: have overdraft fees, have multiple books and/or movies rented, etc.
+  * **Search For Specific Rentals:** Provide a reliable search/sort system so that staff are able to quickly locate those who: have overdraft fees, have multiple books and/or movies rented, etc.
+
+  * **Update Library Inventory:** Staff have the ability to add any new books or movies the library recieves to the system inventory.
