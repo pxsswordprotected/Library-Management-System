@@ -251,11 +251,13 @@ public class LibraryGUI {
 
         }
     }
+
+    @SuppressWarnings("unused")
     class LoginListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             loginConstraints.setGridXY(0, 4);
             // Login success (placeholder condition)
-            if (usrField.getText().equals("gas056") && new String(pwdField.getPassword()).equals("1234")) {
+            if (true) {
                 loginStatusLabel.setText("Success! Redirecting...");
                 loginStatusLabel.setForeground(Color.GREEN);
                 // #region For when i have database access
