@@ -28,8 +28,8 @@ import javax.swing.JTextField;
  */
 @SuppressWarnings("unused")
 public class AdminPanel extends LibraryGUI {
-    
-    //#region Instance Variables
+
+    // #region Instance Variables
     private JFrame frame;
 
     private JMenuBar menuBar;
@@ -42,8 +42,8 @@ public class AdminPanel extends LibraryGUI {
 
     private JButton findStudentButton;
     private JButton findRentalButton;
-    //#endregion
-    
+    // #endregion
+
     public AdminPanel() {
         this.frame = new JFrame();
         this.menuBar = new JMenuBar();
@@ -55,7 +55,7 @@ public class AdminPanel extends LibraryGUI {
         this.addMovieItem = new JMenuItem("New Movie");
         this.mainPanel = new JPanel();
     }
-    
+
     public void go() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("DBMU Library");
@@ -67,7 +67,7 @@ public class AdminPanel extends LibraryGUI {
         addInvItemMenu.add(addMovieItem);
 
         addStudentItem.addActionListener(new NewStudentListener());
-        addRentalItem.addActionListener(new NewRentalListener());
+        //addRentalItem.addActionListener(new NewRentalListener());
         addBookItem.addActionListener(new NewBookListener());
         addMovieItem.addActionListener(new NewMovieListener());
 
@@ -85,15 +85,99 @@ public class AdminPanel extends LibraryGUI {
 
     class NewStudentListener implements ActionListener {
         private JPopupMenu addStudent;
+
         public void actionPerformed(ActionEvent e) {
             // add new student popup menu
         }
     }
+/*
     class NewRentalListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            // add new rental popup menu
+        private JDialog addRental;
+        private JPanel textPanel, fieldPanel, mainPanel, buttonPanel;
+        private JLabel rentNum, returnDate, studentID;
+        private JTextField tField, gField, yField, pField, aField, iField;
+        private JLabel[] labels;
+        private JTextField[] fields;
+        private JButton create, cancel;
+        private LibraryConstraints frameCons, mainCons, fieldCons, textCons, buttonCons;
+        private LibraryConstraints[] contraints;
+
+        public NewRentalListener() {
+            this.addRental = new JDialog(getFrame());
+            this.mainPanel = new JPanel();
+            this.textPanel = new JPanel();
+            this.fieldPanel = new JPanel();
+            this.buttonPanel = new JPanel();
+            this.title = new JLabel("Title: ");
+            this.genre = new JLabel("Genre: ");
+            this.year = new JLabel("Year: ");
+            this.publisher = new JLabel("Publisher: ");
+            this.author = new JLabel("Author: ");
+            this.isbn = new JLabel("ISBN: ");
+            this.tField = new JTextField(10);
+            this.gField = new JTextField(10);
+            this.yField = new JTextField(10);
+            this.pField = new JTextField(10);
+            this.aField = new JTextField(10);
+            this.iField = new JTextField(10);
+            this.create = new JButton("Create Rental");
+            this.cancel = new JButton("Cancel");
+            this.frameCons = new LibraryConstraints();
+            this.mainCons = new LibraryConstraints();
+            this.textCons = new LibraryConstraints();
+            this.fieldCons = new LibraryConstraints();
+            this.buttonCons = new LibraryConstraints();
+
+            this.labels = new JLabel[] { this.title, this.author, this.genre, this.year, this.publisher, this.isbn };
+            this.fields = new JTextField[] { this.tField, this.aField, this.gField, this.yField, this.pField,
+                    this.iField };
+            this.contraints = new LibraryConstraints[] { frameCons, mainCons, textCons, fieldCons, buttonCons };
         }
-    }
+
+        public void actionPerformed(ActionEvent e) {
+            addRental.setTitle("Add New Book");
+            addRental.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            addRental.setLayout(new GridBagLayout());
+            mainPanel.setLayout(new GridBagLayout());
+            textPanel.setLayout(new GridBagLayout());
+            fieldPanel.setLayout(new GridBagLayout());
+            buttonPanel.setLayout(new GridBagLayout());
+
+            for (LibraryConstraints l : contraints) {
+                l.insets = new Insets(5, 5, 5, 5);
+                l.setGridXY(0, 0);
+            }
+            fieldCons.insets = new Insets(0, 5, 0, 0);
+            frameCons.anchor = GridBagConstraints.CENTER;
+            mainCons.anchor = GridBagConstraints.CENTER;
+            fieldCons.anchor = GridBagConstraints.LINE_END;
+            textCons.anchor = GridBagConstraints.LINE_START;
+            buttonCons.anchor = GridBagConstraints.CENTER;
+
+            mainPanel.add(fieldPanel, mainCons);
+
+            buttonPanel.add(create, buttonCons);
+            buttonCons.setGridXY(1, 0);
+            buttonPanel.add(cancel, buttonCons);
+
+            for (int i = 0; i < 6; i++) {
+                fieldCons.setGridXY(1, i);
+                textCons.gridy = i;
+                fieldPanel.add(labels[i], textCons);
+                fieldPanel.add(fields[i], fieldCons);
+            }
+
+            addRental.add(mainPanel, frameCons);
+            frameCons.setGridXY(0, 1);
+            addRental.add(buttonPanel, frameCons);
+            addRental.pack();
+            addRental.validate();
+            addRental.setSize(280, 300);
+            addRental.setResizable(true);
+            addRental.setVisible(true);
+        }
+    }*/
+
     class NewBookListener implements ActionListener {
         private JDialog addBook;
         private JPanel textPanel, fieldPanel, mainPanel, buttonPanel;
@@ -102,7 +186,8 @@ public class AdminPanel extends LibraryGUI {
         private JLabel[] labels;
         private JTextField[] fields;
         private JButton create, cancel;
-        private LibraryConstraints frameCons, mainCons, textCons, fieldCons, buttonCons; 
+        private LibraryConstraints frameCons, mainCons, fieldCons, textCons, buttonCons;
+        private LibraryConstraints[] contraints;
 
         public NewBookListener() {
             this.addBook = new JDialog(getFrame());
@@ -130,36 +215,32 @@ public class AdminPanel extends LibraryGUI {
             this.fieldCons = new LibraryConstraints();
             this.buttonCons = new LibraryConstraints();
 
-            this.labels = new JLabel[]{this.title, this.author, this.genre, this.year, this.publisher, this.isbn};
-            this.fields = new JTextField[]{this.tField, this.aField, this.gField, this.yField, this.pField, this.iField};
+            this.labels = new JLabel[] { this.title, this.author, this.genre, this.year, this.publisher, this.isbn };
+            this.fields = new JTextField[] { this.tField, this.aField, this.gField, this.yField, this.pField,
+                    this.iField };
+            this.contraints = new LibraryConstraints[] { frameCons, mainCons, textCons, fieldCons, buttonCons };
         }
 
         public void actionPerformed(ActionEvent e) {
+            addBook.setTitle("Add New Book");
             addBook.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            addBook.setLayout(new GridLayout(1, 0));
+            addBook.setLayout(new GridBagLayout());
             mainPanel.setLayout(new GridBagLayout());
             textPanel.setLayout(new GridBagLayout());
             fieldPanel.setLayout(new GridBagLayout());
             buttonPanel.setLayout(new GridBagLayout());
 
-            mainCons.setGridXY(0, 0);
+            for (LibraryConstraints l : contraints) {
+                l.insets = new Insets(5, 5, 5, 5);
+                l.setGridXY(0, 0);
+            }
+            fieldCons.insets = new Insets(0, 5, 0, 0);
+            frameCons.anchor = GridBagConstraints.CENTER;
             mainCons.anchor = GridBagConstraints.CENTER;
-            mainCons.insets = new Insets(5, 5, 5, 5);
-
-            textCons.setGridXY(0, 0);
-            textCons.anchor = GridBagConstraints.LINE_START;
-            textCons.insets = new Insets(5, 5, 5, 5);
-
-            fieldCons.setGridXY(0, 0);
             fieldCons.anchor = GridBagConstraints.LINE_END;
-            fieldCons.insets = new Insets(5, 5, 5, 5);
-
-            buttonCons.setGridXY(0, 0);
+            textCons.anchor = GridBagConstraints.LINE_START;
             buttonCons.anchor = GridBagConstraints.CENTER;
-            buttonCons.insets = new Insets(5, 5, 5, 5);
 
-            mainPanel.add(textPanel, mainCons);
-            mainCons.setGridXY(1, 0);
             mainPanel.add(fieldPanel, mainCons);
 
             buttonPanel.add(create, buttonCons);
@@ -167,27 +248,107 @@ public class AdminPanel extends LibraryGUI {
             buttonPanel.add(cancel, buttonCons);
 
             for (int i = 0; i < 6; i++) {
+                fieldCons.setGridXY(1, i);
                 textCons.gridy = i;
-                fieldCons.gridy = i;
-                textPanel.add(labels[i]);
-                fieldPanel.add(fields[i]);
+                fieldPanel.add(labels[i], textCons);
+                fieldPanel.add(fields[i], fieldCons);
             }
 
-            addBook.add(mainPanel);
+            addBook.add(mainPanel, frameCons);
             frameCons.setGridXY(0, 1);
             addBook.add(buttonPanel, frameCons);
             addBook.pack();
             addBook.validate();
-            addBook.setSize(200, 300);
+            addBook.setSize(280, 300);
             addBook.setResizable(true);
             addBook.setVisible(true);
         }
     }
+
     class NewMovieListener implements ActionListener {
-        private JPopupMenu addMovie;
+        private JDialog addBook;
+        private JPanel textPanel, fieldPanel, mainPanel, buttonPanel;
+        private JLabel title, genre, year, producer, director, isan;
+        private JTextField tField, gField, yField, pField, dField, iField;
+        private JLabel[] labels;
+        private JTextField[] fields;
+        private JButton create, cancel;
+        private LibraryConstraints frameCons, mainCons, fieldCons, textCons, buttonCons;
+        private LibraryConstraints[] contraints;
+
+        public NewMovieListener() {
+            this.addBook = new JDialog(getFrame());
+            this.mainPanel = new JPanel();
+            this.textPanel = new JPanel();
+            this.fieldPanel = new JPanel();
+            this.buttonPanel = new JPanel();
+            this.title = new JLabel("Title: ");
+            this.genre = new JLabel("Genre: ");
+            this.year = new JLabel("Year: ");
+            this.producer = new JLabel("Producer: ");
+            this.director = new JLabel("Director: ");
+            this.isan = new JLabel("ISAN: ");
+            this.tField = new JTextField(10);
+            this.gField = new JTextField(10);
+            this.yField = new JTextField(10);
+            this.pField = new JTextField(10);
+            this.dField = new JTextField(10);
+            this.iField = new JTextField(10);
+            this.create = new JButton("Create Movie");
+            this.cancel = new JButton("Cancel");
+            this.frameCons = new LibraryConstraints();
+            this.mainCons = new LibraryConstraints();
+            this.textCons = new LibraryConstraints();
+            this.fieldCons = new LibraryConstraints();
+            this.buttonCons = new LibraryConstraints();
+
+            this.labels = new JLabel[] { this.title, this.director, this.genre, this.year, this.producer, this.isan };
+            this.fields = new JTextField[] { this.tField, this.dField, this.gField, this.yField, this.pField,
+                    this.iField };
+            this.contraints = new LibraryConstraints[] { frameCons, mainCons, textCons, fieldCons, buttonCons };
+        }
 
         public void actionPerformed(ActionEvent e) {
-            // add new movie popup menu
+            addBook.setTitle("Add New Movie");
+            addBook.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            addBook.setLayout(new GridBagLayout());
+            mainPanel.setLayout(new GridBagLayout());
+            textPanel.setLayout(new GridBagLayout());
+            fieldPanel.setLayout(new GridBagLayout());
+            buttonPanel.setLayout(new GridBagLayout());
+
+            for (LibraryConstraints l : contraints) {
+                l.insets = new Insets(5, 5, 5, 5);
+                l.setGridXY(0, 0);
+            }
+            fieldCons.insets = new Insets(0, 5, 0, 0);
+            frameCons.anchor = GridBagConstraints.CENTER;
+            mainCons.anchor = GridBagConstraints.CENTER;
+            fieldCons.anchor = GridBagConstraints.LINE_END;
+            textCons.anchor = GridBagConstraints.LINE_START;
+            buttonCons.anchor = GridBagConstraints.CENTER;
+
+            mainPanel.add(fieldPanel, mainCons);
+
+            buttonPanel.add(create, buttonCons);
+            buttonCons.setGridXY(1, 0);
+            buttonPanel.add(cancel, buttonCons);
+
+            for (int i = 0; i < 6; i++) {
+                fieldCons.setGridXY(1, i);
+                textCons.gridy = i;
+                fieldPanel.add(labels[i], textCons);
+                fieldPanel.add(fields[i], fieldCons);
+            }
+
+            addBook.add(mainPanel, frameCons);
+            frameCons.setGridXY(0, 1);
+            addBook.add(buttonPanel, frameCons);
+            addBook.pack();
+            addBook.validate();
+            addBook.setSize(280, 300);
+            addBook.setResizable(true);
+            addBook.setVisible(true);
         }
     }
 }
