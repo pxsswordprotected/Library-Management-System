@@ -21,46 +21,24 @@ import javax.swing.JTextField;
  *
  * @author Grant Swift
  */
+@SuppressWarnings("unused")
 public class LibraryGUI {
 
     // #region Instance Variables
     private JFrame frame;
-    
-    private JPanel mainPanel;
-    private JPanel titlePanel;
-    private JPanel buttonsPanel;
-    private JPanel loginPanel;
-    private JPanel usrPanel;
-    private JPanel pwdPanel;
-    private JPanel loginButtonPanel;
-
-    private JButton backButton;
-    private JButton studentButton;
-    private JButton staffButton;
-    private JButton loginButton;
-
-    private JLabel titleLabel;
-    private JLabel usrLabel;
-    private JLabel pwdLabel;
-    private JLabel loginLabel;
-    private JLabel loginStatusLabel;
-
-    private LibraryConstraints mainConstraints;
-    private LibraryConstraints loginConstraints;
-    private LibraryConstraints buttonConstraints;
-
+    private JPanel mainPanel, titlePanel, buttonsPanel, loginPanel, usrPanel, pwdPanel, loginButtonPanel;
+    private JButton backButton, studentButton, staffButton, loginButton;
+    private JLabel titleLabel, usrLabel, pwdLabel, loginLabel, loginStatusLabel;
+    private LibraryConstraints mainConstraints, loginConstraints, buttonConstraints;
     private JTextField usrField;
-    
     private JPasswordField pwdField;
-
     private int currentScreen;
-
-    // const variables for currentScreen
-    private final int MAIN_MENU = 1;
-    private final int STUDENT_LOGIN = 2;
-    private final int STAFF_LOGIN = 3;
-    private final int INVENTORY_SEARCH = 4;
-    private final int ADMIN_PANEL = 5;
+        private final int MAIN_MENU = 1;
+        private final int STUDENT_LOGIN = 2;
+        private final int STAFF_LOGIN = 3;
+        private final int INVENTORY_SEARCH = 4;
+        private final int ADMIN_PANEL = 5;
+        private final int STUDENT_PANEL = 5;
     // #endregion
 
     public LibraryGUI() {
@@ -141,7 +119,7 @@ public class LibraryGUI {
                 ap.go();
                 break;
             case INVENTORY_SEARCH:
-                InventorySearch inv = new InventorySearch();
+                InventorySearch inv = new InventorySearch(this.getFrame());
                 inv.go();
                 break;
             default:
@@ -149,6 +127,11 @@ public class LibraryGUI {
                 break;
         }
     }
+
+    public JFrame getFrame() {
+        return this.frame;
+    }
+
     public int getCurrentScreen() {
         return this.currentScreen;
     }
@@ -225,7 +208,8 @@ public class LibraryGUI {
             mainPanel.revalidate();
             mainPanel.repaint();
         }
-    }   
+    }
+
     class BackListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             currentScreen = MAIN_MENU;
@@ -252,7 +236,6 @@ public class LibraryGUI {
         }
     }
 
-    @SuppressWarnings("unused")
     class LoginListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             loginConstraints.setGridXY(0, 4);
