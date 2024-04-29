@@ -22,7 +22,7 @@ import javax.swing.JTextField;
  * @author Grant Swift
  */
 @SuppressWarnings("unused")
-public class InventorySearch extends LibraryGUI {
+public class SearchPage extends LibraryGUI {
     
     //#region
     private JFrame frame;
@@ -34,16 +34,34 @@ public class InventorySearch extends LibraryGUI {
     private JPanel[] panels;
     private JButton[] buttons;
     private LibraryConstraints[] constraints;
+    private int searchType;
     //#endregion
 
-    public InventorySearch(JFrame fr) {
+    public SearchPage(JFrame fr, int sT) {
         this.frame = fr;
+        this.searchType = sT;
         this.panels = new JPanel[] { this.mainPanel, this.searchPanel, this.buttonPanel, this.searchBarPanel, this.resultsPanel, this.filtersPanel };
         this.constraints = new LibraryConstraints[] { this.mainCons, this.searchCons, this.buttonCons, this.sBarCons, this.resultCons, this.filterCons };
         this.buttons = new JButton[] { this.searchButton, this.nextPageButton, this.backPageButton, this.showFiltersButton, this.searchByButton, this.returnToAdminPanelButton };
     }
 
     public void go() {
+        switch (this.searchType) {
+            case STUDENT_SEARCH:
+                
+                break;
+        
+            case RENTAL_SEARCH:
 
+                break;
+            
+            case INVENTORY_SEARCH:
+            
+                break;
+            
+            default:
+                System.out.println("You should not be calling a search menu from this page.");
+                break;
+        }
     }
 }

@@ -33,12 +33,14 @@ public class LibraryGUI {
     private JTextField usrField;
     private JPasswordField pwdField;
     private int currentScreen;
-        private final int MAIN_MENU = 1;
-        private final int STUDENT_LOGIN = 2;
-        private final int STAFF_LOGIN = 3;
-        private final int INVENTORY_SEARCH = 4;
-        private final int ADMIN_PANEL = 5;
-        private final int STUDENT_PANEL = 5;
+        static final int MAIN_MENU = 1;
+        static final int STUDENT_LOGIN = 2;
+        static final int STAFF_LOGIN = 3;
+        static final int ADMIN_PANEL = 4;
+        static final int STUDENT_PANEL = 5;
+        static final int STUDENT_SEARCH = 6;
+        static final int RENTAL_SEARCH = 7;
+        static final int INVENTORY_SEARCH = 8;
     // #endregion
 
     public LibraryGUI() {
@@ -94,15 +96,138 @@ public class LibraryGUI {
         buttonConstraints.setGridXY(0, 0);
         buttonConstraints.anchor = GridBagConstraints.CENTER;
 
-        studentButton.addActionListener(new StudentListener());
+        studentButton.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                currentScreen = STUDENT_LOGIN;
+                buttonsPanel.removeAll();
+                mainPanel.remove(buttonsPanel);
+                mainPanel.revalidate();
+    
+                loginLabel.setText("Enter your Student ID and password");
+                loginPanel.add(loginLabel, loginConstraints);
+                usrLabel.setText("Student ID: ");
+                usrPanel.add(usrLabel);
+                usrPanel.add(usrField);
+                pwdLabel.setText("Password:   ");
+                pwdPanel.add(pwdLabel);
+                pwdPanel.add(pwdField);
+    
+                loginConstraints.setGridXY(0, 1);
+                loginPanel.add(usrPanel, loginConstraints);
+    
+                loginConstraints.setGridXY(0, 2);
+                loginPanel.add(pwdPanel, loginConstraints);
+    
+                loginConstraints.setGridXY(0, 3);
+                loginConstraints.fill = GridBagConstraints.NONE;
+                loginButtonPanel.add(backButton, loginConstraints);
+                loginButtonPanel.add(loginButton, loginConstraints);
+                loginPanel.add(loginButtonPanel, loginConstraints);
+    
+                loginConstraints.setGridXY(0, 0);
+                mainConstraints.setGridXY(0, 1);
+                mainPanel.add(loginPanel, mainConstraints);
+                mainPanel.revalidate();
+                mainPanel.repaint();
+            }});
         buttonsPanel.add(studentButton, buttonConstraints);
         buttonConstraints.setGridXY(1, 0);
 
-        staffButton.addActionListener(new StaffListener());
+        staffButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                currentScreen = STAFF_LOGIN;
+                buttonsPanel.removeAll();
+                loginPanel.removeAll();
+                mainPanel.remove(buttonsPanel);
+                mainPanel.revalidate();
+                mainPanel.repaint();
+    
+                loginLabel.setText("Enter your Staff ID and password");
+                loginPanel.add(loginLabel, loginConstraints);
+                usrLabel.setText("Staff ID:    ");
+                usrPanel.add(usrLabel);
+                usrPanel.add(usrField);
+                pwdLabel.setText("Password:   ");
+                pwdPanel.add(pwdLabel);
+                pwdPanel.add(pwdField);
+    
+                loginConstraints.setGridXY(0, 1);
+                loginPanel.add(usrPanel, loginConstraints);
+    
+                loginConstraints.setGridXY(0, 2);
+                loginPanel.add(pwdPanel, loginConstraints);
+    
+                loginConstraints.setGridXY(0, 3);
+                loginConstraints.fill = GridBagConstraints.NONE;
+                loginButtonPanel.add(backButton, loginConstraints);
+                loginButtonPanel.add(loginButton, loginConstraints);
+                loginPanel.add(loginButtonPanel, loginConstraints);
+    
+                loginConstraints.setGridXY(0, 0);
+                mainConstraints.setGridXY(0, 1);
+                mainPanel.add(loginPanel, mainConstraints);
+                mainPanel.revalidate();
+                mainPanel.repaint();
+            }});
         buttonsPanel.add(staffButton, buttonConstraints);
 
-        backButton.addActionListener(new BackListener());
-        loginButton.addActionListener(new LoginListener());
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                currentScreen = MAIN_MENU;
+                loginPanel.removeAll();
+                loginPanel.revalidate();
+                loginPanel.repaint();
+                mainPanel.remove(loginPanel);
+                mainPanel.revalidate();
+                mainPanel.revalidate();
+    
+                buttonConstraints.setGridXY(0, 0);
+                buttonConstraints.anchor = GridBagConstraints.CENTER;
+                buttonsPanel.add(studentButton, buttonConstraints);
+                buttonConstraints.setGridXY(1, 0);
+                buttonsPanel.add(staffButton, buttonConstraints);
+                buttonsPanel.revalidate();
+                buttonsPanel.repaint();
+    
+                mainConstraints.setGridXY(0,1);
+                mainPanel.add(buttonsPanel, mainConstraints);
+                mainPanel.revalidate();
+                mainPanel.repaint();
+    
+            }});
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loginConstraints.setGridXY(0, 4);
+                // Login success (placeholder condition)
+                if (true) {
+                    loginStatusLabel.setText("Success! Redirecting...");
+                    loginStatusLabel.setForeground(Color.GREEN);
+                    // #region For when i have database access
+                    switch (currentScreen) {
+                        case STUDENT_LOGIN:
+                            // send to library database
+                            break;
+    
+                        case STAFF_LOGIN:
+                            shift(ADMIN_PANEL);
+                            frame.dispose();
+                            break;
+                    
+                        default:
+                            // unreachable
+                            break;
+                    }
+                    // #endregion
+                }
+                else { // Login failure
+                    loginStatusLabel.setText("Sign in failed! Double check your User ID/Password.");
+                    loginStatusLabel.setForeground(Color.RED);
+                }
+                loginPanel.add(loginStatusLabel, loginConstraints);
+                loginConstraints.setGridXY(0, 0);
+                mainPanel.revalidate();
+                mainPanel.repaint();
+            }});
 
         mainPanel.add(buttonsPanel, mainConstraints);
         frame.add(mainPanel);
@@ -119,7 +244,7 @@ public class LibraryGUI {
                 ap.go();
                 break;
             case INVENTORY_SEARCH:
-                InventorySearch inv = new InventorySearch(this.getFrame());
+                SearchPage inv = new SearchPage(this.getFrame(), INVENTORY_SEARCH);
                 inv.go();
                 break;
             default:
@@ -134,141 +259,6 @@ public class LibraryGUI {
 
     public int getCurrentScreen() {
         return this.currentScreen;
-    }
-
-    // Button Listeners
-    class StudentListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            currentScreen = STUDENT_LOGIN;
-            buttonsPanel.removeAll();
-            mainPanel.remove(buttonsPanel);
-            mainPanel.revalidate();
-
-            loginLabel.setText("Enter your Student ID and password");
-            loginPanel.add(loginLabel, loginConstraints);
-            usrLabel.setText("Student ID: ");
-            usrPanel.add(usrLabel);
-            usrPanel.add(usrField);
-            pwdLabel.setText("Password:   ");
-            pwdPanel.add(pwdLabel);
-            pwdPanel.add(pwdField);
-
-            loginConstraints.setGridXY(0, 1);
-            loginPanel.add(usrPanel, loginConstraints);
-
-            loginConstraints.setGridXY(0, 2);
-            loginPanel.add(pwdPanel, loginConstraints);
-
-            loginConstraints.setGridXY(0, 3);
-            loginConstraints.fill = GridBagConstraints.NONE;
-            loginButtonPanel.add(backButton, loginConstraints);
-            loginButtonPanel.add(loginButton, loginConstraints);
-            loginPanel.add(loginButtonPanel, loginConstraints);
-
-            loginConstraints.setGridXY(0, 0);
-            mainConstraints.setGridXY(0, 1);
-            mainPanel.add(loginPanel, mainConstraints);
-            mainPanel.revalidate();
-            mainPanel.repaint();
-        }
-    }
-    class StaffListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            currentScreen = STAFF_LOGIN;
-            buttonsPanel.removeAll();
-            loginPanel.removeAll();
-            mainPanel.remove(buttonsPanel);
-            mainPanel.revalidate();
-            mainPanel.repaint();
-
-            loginLabel.setText("Enter your Staff ID and password");
-            loginPanel.add(loginLabel, loginConstraints);
-            usrLabel.setText("Staff ID:    ");
-            usrPanel.add(usrLabel);
-            usrPanel.add(usrField);
-            pwdLabel.setText("Password:   ");
-            pwdPanel.add(pwdLabel);
-            pwdPanel.add(pwdField);
-
-            loginConstraints.setGridXY(0, 1);
-            loginPanel.add(usrPanel, loginConstraints);
-
-            loginConstraints.setGridXY(0, 2);
-            loginPanel.add(pwdPanel, loginConstraints);
-
-            loginConstraints.setGridXY(0, 3);
-            loginConstraints.fill = GridBagConstraints.NONE;
-            loginButtonPanel.add(backButton, loginConstraints);
-            loginButtonPanel.add(loginButton, loginConstraints);
-            loginPanel.add(loginButtonPanel, loginConstraints);
-
-            loginConstraints.setGridXY(0, 0);
-            mainConstraints.setGridXY(0, 1);
-            mainPanel.add(loginPanel, mainConstraints);
-            mainPanel.revalidate();
-            mainPanel.repaint();
-        }
-    }
-
-    class BackListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            currentScreen = MAIN_MENU;
-            loginPanel.removeAll();
-            loginPanel.revalidate();
-            loginPanel.repaint();
-            mainPanel.remove(loginPanel);
-            mainPanel.revalidate();
-            mainPanel.revalidate();
-
-            buttonConstraints.setGridXY(0, 0);
-            buttonConstraints.anchor = GridBagConstraints.CENTER;
-            buttonsPanel.add(studentButton, buttonConstraints);
-            buttonConstraints.setGridXY(1, 0);
-            buttonsPanel.add(staffButton, buttonConstraints);
-            buttonsPanel.revalidate();
-            buttonsPanel.repaint();
-
-            mainConstraints.setGridXY(0,1);
-            mainPanel.add(buttonsPanel, mainConstraints);
-            mainPanel.revalidate();
-            mainPanel.repaint();
-
-        }
-    }
-
-    class LoginListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            loginConstraints.setGridXY(0, 4);
-            // Login success (placeholder condition)
-            if (true) {
-                loginStatusLabel.setText("Success! Redirecting...");
-                loginStatusLabel.setForeground(Color.GREEN);
-                // #region For when i have database access
-                switch (currentScreen) {
-                    case STUDENT_LOGIN:
-                        // send to library database
-                        break;
-
-                    case STAFF_LOGIN:
-                        shift(ADMIN_PANEL);
-                        frame.dispose();
-                        break;
-                
-                    default:
-                        // unreachable
-                        break;
-                }
-                // #endregion
-            }
-            else { // Login failure
-                loginStatusLabel.setText("Sign in failed! Double check your User ID/Password.");
-                loginStatusLabel.setForeground(Color.RED);
-            }
-            loginPanel.add(loginStatusLabel, loginConstraints);
-            loginConstraints.setGridXY(0, 0);
-            mainPanel.revalidate();
-            mainPanel.repaint();
-        }
     }
 
     // Convienience Methods for GridBagConstraints objects
