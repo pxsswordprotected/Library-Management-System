@@ -1,24 +1,19 @@
 package libms;
 
-//#region IMPORTS
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GradientPaint;
+//#region
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 //#endregion
 
@@ -30,7 +25,6 @@ public class AdminMenuBar extends AdminPanel {
 
     // #region Instance Variables
     private JFrame frame;
-
     private JMenuBar menuBar;
     private JMenu toolsMenu, addInvItemMenu;
     private JMenuItem addStudentItem, addRentalItem, addBookItem, addMovieItem;

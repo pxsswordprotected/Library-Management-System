@@ -21,7 +21,6 @@ import javax.swing.JTextField;
  *
  * @author Grant Swift
  */
-@SuppressWarnings("unused")
 public class LibraryGUI extends Consts {
 
     // #region Instance Variables
@@ -59,8 +58,6 @@ public class LibraryGUI extends Consts {
         this.backButton = new JButton("Return to menu");
         this.loginButton = new JButton("Sign in");
         this.currentScreen = Consts.MAIN_MENU;
-        this.lastScreen = Consts.NULL_SCREEN;
-        objects.add(this);
     }
 
     public void go() {
@@ -194,6 +191,7 @@ public class LibraryGUI extends Consts {
         });
 
         loginButton.addActionListener(new ActionListener() {
+            @SuppressWarnings("unused")
             public void actionPerformed(ActionEvent e) {
                 loginConstraints.setGridXY(0, 4);
                 // Login success (placeholder condition)
@@ -216,7 +214,8 @@ public class LibraryGUI extends Consts {
                             break;
                     }
                     // #endregion
-                } else { // Login failure
+                } 
+                else { // Login failure
                     loginStatusLabel.setText("Sign in failed! Double check your User ID/Password.");
                     loginStatusLabel.setForeground(Color.RED);
                 }
@@ -239,7 +238,6 @@ public class LibraryGUI extends Consts {
         switch (screen) {
             case Consts.ADMIN_PANEL:
                 AdminPanel ap = new AdminPanel();
-                ap.setLastScreen(this.getCurrentScreen());
                 ap.go();
                 break;
             case Consts.STUDENT_PANEL:
@@ -300,6 +298,7 @@ public class LibraryGUI extends Consts {
             this.anchor = GridBagConstraints.CENTER;
         }
     }
+
 
     public static void main(String[] args) {
         LibraryGUI gui = new LibraryGUI();

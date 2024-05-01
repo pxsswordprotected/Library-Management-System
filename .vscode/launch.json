@@ -9,13 +9,6 @@
             "name": "LibraryGUI",
             "request": "launch",
             "mainClass": "libms.LibraryGUI",
-            "projectName": "Library-Management-System_2977d03f"
-        },
-        {
-            "type": "java",
-            "name": "LibraryGUI",
-            "request": "launch",
-            "mainClass": "libms.LibraryGUI",
             "projectName": "Library-Management-System_6d00b3df"
         }
     ]

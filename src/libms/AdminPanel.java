@@ -1,13 +1,7 @@
 package libms;
 
-//#region IMPORTS
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GradientPaint;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,21 +9,12 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
-//#endregion
 
 /**
  *
  * @author Grant Swift
  */
-@SuppressWarnings("unused")
 public class AdminPanel extends LibraryGUI {
 
     // #region Instance Variables
@@ -39,7 +24,6 @@ public class AdminPanel extends LibraryGUI {
     private LibraryConstraints frameCons, mainCons;
     private LibraryConstraints[] cons;
     private JButton[] buttons;
-    private int currentScreen, lastScreen;
     // #endregion
 
     public AdminPanel() {
@@ -53,9 +37,6 @@ public class AdminPanel extends LibraryGUI {
         this.mainCons = new LibraryConstraints();
         this.cons = new LibraryConstraints[] { this.frameCons, this.mainCons};
         this.buttons = new JButton[] { this.findStudentButton, this.findRentalButton, this.updateInventoryButton };
-        this.currentScreen = Consts.ADMIN_PANEL;
-        this.lastScreen = Consts.MAIN_MENU;
-        objects.add(this);
     }
 
     public void go() {
@@ -65,6 +46,7 @@ public class AdminPanel extends LibraryGUI {
         mainPanel.setLayout(new GridBagLayout());
         buttonsPanel.setLayout(new BoxLayout(this.buttonsPanel, BoxLayout.X_AXIS));
         new AdminMenuBar(this.frame);
+
         for (LibraryConstraints c  : this.cons) {
             c.insets = new Insets(5, 5, 5, 5);
             c.setGridXY(0, 0);
@@ -79,12 +61,12 @@ public class AdminPanel extends LibraryGUI {
         });
         findRentalButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // shift to search screen
+                new AdminSearchPage(Consts.RENTAL_SEARCH);
             }
         });
         updateInventoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // shift to search screen
+                
             }
         });
         // #endregion
@@ -102,23 +84,16 @@ public class AdminPanel extends LibraryGUI {
         frame.setVisible(true);
     }
 
-    @Override
-    public void shift(int screen) {
-        switch (screen) {
-            case Consts.STUDENT_SEARCH:
-                AdminPanel ap = new AdminPanel();
-                ap.setLastScreen(this.getCurrentScreen());
-                ap.go();
-                break;
-            case Consts.RENTAL_SEARCH:
-            
-                break;
-            case Consts.UPDATE_INVENTORY:
-            
-                break;
-            default:
-                System.out.println("Invalid screen shift to screen " + screen + " attempted");
-                break;
+    public class UpdateInventoryListener implements ActionListener {
+        
+        
+
+        public UpdateInventoryListener() {
+
+        }
+        
+        public void actionPerformed(ActionEvent e) {
+
         }
     }
 }

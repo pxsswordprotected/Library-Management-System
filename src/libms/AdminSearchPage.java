@@ -1,128 +1,187 @@
 package libms;
 
-//#region IMPORTS
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.Dimension;
+//#region
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 //#endregion
+import javax.swing.SwingConstants;
 
 /**
  *
  * @author Grant Swift
  */
-@SuppressWarnings("unused")
 public class AdminSearchPage extends LibraryGUI {
-    
-    //#region
+
+    // #region
     private JFrame frame;
-    private JPanel mainPanel, searchPanel, buttonPanel, searchBarPanel, resultsPanel, filtersPanel, bButtonPanel;
-    private LibraryConstraints bButtonCons, searchCons, buttonCons, sBarCons, resultCons, filterCons, mainCons;
-    private JButton searchButton, showFiltersButton, backButton;
-    private JTextField searchField;
+    private JLabel head;
+    private JPanel panel;
+    private LibraryConstraints cons;
+    private JButton search, back;
+    private JTextField input;
     private JScrollPane scrollPane;
     private JTable result;
-    private int searchType;
+    // #endregion
 
-    //#endregion
-
+    /**
+     * @param sT
+     */
     public AdminSearchPage(int sT) {
         this.frame = new JFrame();
-        this.searchType = sT;
-        
-        this.mainPanel = new JPanel();
-        this.searchPanel = new JPanel();
-        this.buttonPanel = new JPanel();
-        this.bButtonPanel = new JPanel();
-        this.searchBarPanel = new JPanel();
-        this.resultsPanel = new JPanel();
-        this.filtersPanel = new JPanel();
+        this.head = new JLabel();
 
-        this.bButtonCons = new LibraryConstraints();
-        this.searchCons = new LibraryConstraints();
-        this.sBarCons = new LibraryConstraints();
-        this.mainCons = new LibraryConstraints();
-        this.resultCons = new LibraryConstraints();
+        this.panel = new JPanel(new GridBagLayout());
+        this.cons = new LibraryConstraints();
 
-        this.searchButton = new JButton("Search");
-        this.showFiltersButton = new JButton();
-        this.backButton = new JButton();
-
+        this.search = new JButton("Search");
+        this.back = new JButton("<html>&lt Return</html>");
+            this.back.setFocusPainted(false);
+            this.back.setMargin(new Insets(0, 0, 0, 0));
+            this.back.setContentAreaFilled(false);
+            this.back.setBorderPainted(false);
+            this.back.setOpaque(false);
+            this.back.setHorizontalAlignment(SwingConstants.LEFT);
+            this.back.addActionListener(new BackButton());
+            this.back.addMouseListener(new BackButton());
         this.result = new JTable();
         this.scrollPane = new JScrollPane(this.result);
-        this.searchField = new JTextField(30);
-        objects.add(this);
-        this.go();
+        this.input = new JTextField(30);
+        this.go(sT);
     }
-    
-    public void go() {
-        switch (this.searchType) {
+
+    public void go(int sT) {
+
+        switch (sT) {
             case Consts.STUDENT_SEARCH:
                 this.setCurrentScreen(Consts.STUDENT_SEARCH);
                 frame.setTitle("Student Search");
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                mainPanel.setLayout(new GridBagLayout());
-                searchPanel.setLayout(new GridBagLayout());
-                buttonPanel.setLayout(new GridBagLayout());
-                bButtonPanel.setLayout(new BoxLayout(bButtonPanel, BoxLayout.Y_AXIS));
-                searchBarPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-                resultsPanel.setLayout(new GridBagLayout());
-                filtersPanel.setLayout(new GridBagLayout());
-                
-                searchCons.insets = new Insets(5,5,5,5);
-                resultCons.insets = new Insets(5,5,5,5);
-                sBarCons.setup();
-                mainCons.setGridXY(0,0);
+                cons.anchor = GridBagConstraints.FIRST_LINE_START;             // RETURN BUTTON
+                cons.insets = new Insets(5, 10, 0, 0);
+                cons.weighty = 0.1;
+                cons.weightx = 0.20;
+                cons.setGridXY(0, 0);
+                panel.add(this.back, this.cons);
 
-                searchBarPanel.add(this.searchField);
-                searchBarPanel.add(this.searchButton);
-                searchPanel.add(this.searchBarPanel, this.searchCons);
-                mainPanel.add(this.searchPanel, this.mainCons);
-                mainCons.gridy++;
+                cons.anchor = GridBagConstraints.CENTER;                 // HEADER TEXT
+                cons.insets = new Insets(5, 0, 0, 0);
+                cons.setGridXY(1, 0);
+                cons.weightx = 0.55;
+                cons.ipadx = 25;
+                head.setText("<html><B>Search for student</B></html>");
+                panel.add(this.head, this.cons);
 
-                resultsPanel.add(this.scrollPane, this.resultCons);
-                mainPanel.add(this.resultsPanel, this.mainCons);
+                cons.setGridXY(0, 1);                                    // SEARCH TEXT FIELD
+                cons.weighty = 0.25;
+                cons.weightx = 0.75;
+                cons.ipadx = 5;
+                cons.gridwidth = 2;
+                cons.insets = new Insets(5, 15, 0, 0);
+                panel.add(this.input, this.cons);
 
-                frame.add(this.mainPanel);
+                cons.setGridXY(2, 1);                                    // SEARCH BUTTON
+                cons.gridwidth = 0;
+                cons.weightx = 0.25;
+                cons.anchor = GridBagConstraints.LINE_END;
+                cons.insets = new Insets(5, 0, 0, 15);
+                panel.add(this.search, this.cons);
+
+                cons.setGridXY(0,2);                                     // RESULTS PANE
+                cons.weighty = 0.65;
+                cons.ipady = 30;
+                cons.anchor = GridBagConstraints.CENTER;
+                cons.gridwidth = 3;
+                cons.insets = new Insets(5,15,15,15);
+                panel.add(this.scrollPane, this.cons);
+
+                frame.add(this.panel);
                 frame.pack();
-                frame.validate();
-                frame.repaint();
-                frame.setSize(600, 600);
-                frame.setResizable(true);
+                frame.setResizable(false);
                 frame.setVisible(true);
                 break;
-        
-            case Consts.RENTAL_SEARCH:
 
+            case Consts.RENTAL_SEARCH:
+                this.setCurrentScreen(Consts.RENTAL_SEARCH);
+                frame.setTitle("Rental Search");
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                cons.anchor = GridBagConstraints.FIRST_LINE_START;             // RETURN BUTTON
+                cons.insets = new Insets(5, 10, 0, 0);
+                cons.weighty = 0.1;
+                cons.weightx = 0.20;
+                cons.setGridXY(0, 0);
+                panel.add(this.back, this.cons);
+
+                cons.anchor = GridBagConstraints.CENTER;                 // HEADER TEXT
+                cons.insets = new Insets(5, 0, 0, 0);
+                cons.setGridXY(1, 0);
+                cons.weightx = 0.55;
+                cons.ipadx = 25;
+                head.setText("<html><B>Search all rentals</B></html>");
+                panel.add(this.head, this.cons);
+
+                cons.setGridXY(0, 1);                                    // SEARCH TEXT FIELD
+                cons.weighty = 0.25;
+                cons.weightx = 0.75;
+                cons.ipadx = 5;
+                cons.gridwidth = 2;
+                cons.insets = new Insets(5, 15, 0, 0);
+                panel.add(this.input, this.cons);
+
+                cons.setGridXY(2, 1);                                    // SEARCH BUTTON
+                cons.gridwidth = 0;
+                cons.weightx = 0.25;
+                cons.anchor = GridBagConstraints.LINE_END;
+                cons.insets = new Insets(5, 0, 0, 15);
+                panel.add(this.search, this.cons);
+
+                cons.setGridXY(0,2);                                     // RESULTS PANE
+                cons.weighty = 0.65;
+                cons.ipady = 30;
+                cons.anchor = GridBagConstraints.CENTER;
+                cons.gridwidth = 3;
+                cons.insets = new Insets(5,15,15,15);
+                panel.add(this.scrollPane, this.cons);
+
+                frame.add(this.panel);
+                frame.pack();
+                frame.setResizable(false);
+                frame.setVisible(true);
                 break;
-            
-            case Consts.UPDATE_INVENTORY:
-            
-                break;
-            
+
             default:
-                System.out.println("You should not be calling a search menu from this page.");
+                System.out.println("You should not be calling an admin search menu from this page.");
                 break;
         }
     }
 
-    public class BackButtonListener implements ActionListener {
+    public class BackButton implements MouseListener, ActionListener {
+        public void mouseEntered(MouseEvent evt) {
+            back.setText("<html>&lt <u>Return</u></html>");
+        }
+        public void mouseExited(MouseEvent evt) {
+            back.setText("<html>&lt Return</html>");
+        }
+        public void mousePressed(MouseEvent evt) { }
+        public void mouseClicked(MouseEvent evt) { }
+        public void mouseReleased(MouseEvent evt) { }
+
         public void actionPerformed(ActionEvent e) {
             frame.dispose();
         }

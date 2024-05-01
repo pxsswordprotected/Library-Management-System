@@ -17,6 +17,4 @@ public class Consts {
     static final int RENTAL_SEARCH = 7;
     static final int INVENTORY_SEARCH = 8;
     static final int UPDATE_INVENTORY = 9;
-
-    public static ArrayList<LibraryGUI> objects = new ArrayList<LibraryGUI>();
 }
