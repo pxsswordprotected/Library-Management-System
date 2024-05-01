@@ -8,15 +8,17 @@ public class Person {
     private int userID;
     private String name;
     private String email;
+    private String password;
 
     public Person() {
-        new Person(000000000, null, null);
+        new Person(000000000, null, null, null);
     }
     
-    public Person(int uID, String name, String email) {
+    public Person(int uID, String name, String email, String password) {
         this.userID = uID;
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
     public int getUserID() {
@@ -28,6 +30,9 @@ public class Person {
     public String getEmail() {
         return email;
     }
+    public String getPassword() {
+        return password;
+    }
 
     public void setUserID(int newID) {
         this.userID = newID;
@@ -37,5 +42,8 @@ public class Person {
     }
     public void setEmail(String newEmail) {
         this.email = newEmail;
+    }
+    public void setPassword(String newPass) {
+        this.password = newPass;
     }
 }
