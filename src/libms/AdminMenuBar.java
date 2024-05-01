@@ -32,14 +32,14 @@ public class AdminMenuBar extends AdminPanel {
     private JFrame frame;
 
     private JMenuBar menuBar;
-    private JMenu fileMenu, addInvItemMenu;
+    private JMenu toolsMenu, addInvItemMenu;
     private JMenuItem addStudentItem, addRentalItem, addBookItem, addMovieItem;
     // #endregion
 
     public AdminMenuBar(JFrame frame) {
         this.frame = frame;
         this.menuBar = new JMenuBar();
-        this.fileMenu = new JMenu("File");
+        this.toolsMenu = new JMenu("Tools");
         this.addStudentItem = new JMenuItem("New Student");
         this.addRentalItem = new JMenuItem("New Rental");
         this.addInvItemMenu = new JMenu("Add to inventory");
@@ -49,9 +49,9 @@ public class AdminMenuBar extends AdminPanel {
     }
 
     public void go() {
-        fileMenu.add(addStudentItem);
-        fileMenu.add(addRentalItem);
-        fileMenu.add(addInvItemMenu);
+        toolsMenu.add(addStudentItem);
+        toolsMenu.add(addRentalItem);
+        toolsMenu.add(addInvItemMenu);
         addInvItemMenu.add(addBookItem);
         addInvItemMenu.add(addMovieItem);
 
@@ -60,7 +60,7 @@ public class AdminMenuBar extends AdminPanel {
         addBookItem.addActionListener(new NewBookListener());
         addMovieItem.addActionListener(new NewMovieListener());
 
-        menuBar.add(fileMenu);
+        menuBar.add(toolsMenu);
         frame.setJMenuBar(menuBar);
     }
 

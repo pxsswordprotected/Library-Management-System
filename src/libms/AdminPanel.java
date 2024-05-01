@@ -2,6 +2,7 @@ package libms;
 
 //#region IMPORTS
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.GridBagConstraints;
@@ -10,6 +11,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JDialog;
@@ -31,31 +34,36 @@ public class AdminPanel extends LibraryGUI {
 
     // #region Instance Variables
     private JFrame frame;
-    private JPanel mainPanel;
+    private JPanel mainPanel, buttonsPanel;
     private JButton findStudentButton, findRentalButton, updateInventoryButton;
-    private LibraryConstraints frameCons, mainCons, buttonCons;
+    private LibraryConstraints frameCons, mainCons;
     private LibraryConstraints[] cons;
     private JButton[] buttons;
+    private int currentScreen, lastScreen;
     // #endregion
 
     public AdminPanel() {
         this.frame = new JFrame();
         this.mainPanel = new JPanel();
+        this.buttonsPanel = new JPanel();
         this.findStudentButton = new JButton("Search for student");
         this.findRentalButton = new JButton("Search for rental");
         this.updateInventoryButton = new JButton("Update Library Inventory");
         this.frameCons = new LibraryConstraints();
         this.mainCons = new LibraryConstraints();
-        this.buttonCons = new LibraryConstraints();
-        this.cons = new LibraryConstraints[] { this.frameCons, this.mainCons, this.buttonCons };
+        this.cons = new LibraryConstraints[] { this.frameCons, this.mainCons};
         this.buttons = new JButton[] { this.findStudentButton, this.findRentalButton, this.updateInventoryButton };
+        this.currentScreen = Consts.ADMIN_PANEL;
+        this.lastScreen = Consts.MAIN_MENU;
+        objects.add(this);
     }
 
     public void go() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("DBMU Library");
-        frame.setLayout(new GridBagLayout());
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setTitle("DBMU Library");
+        this.frame.setLayout(new GridBagLayout());
         mainPanel.setLayout(new GridBagLayout());
+        buttonsPanel.setLayout(new BoxLayout(this.buttonsPanel, BoxLayout.X_AXIS));
         new AdminMenuBar(this.frame);
         for (LibraryConstraints c  : this.cons) {
             c.insets = new Insets(5, 5, 5, 5);
@@ -64,17 +72,17 @@ public class AdminPanel extends LibraryGUI {
         }
 
         // #region Button Listeners
-        findRentalButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // shift to search screen
-            }
-        });
         findStudentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // shift to search screen
+                new AdminSearchPage(Consts.STUDENT_SEARCH);
             }
         });
         findRentalButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // shift to search screen
+            }
+        });
+        updateInventoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // shift to search screen
             }
@@ -82,16 +90,35 @@ public class AdminPanel extends LibraryGUI {
         // #endregion
 
         for (JButton b : this.buttons) {
-            buttonCons.weighty = 1.0;
-            mainPanel.add(b, this.buttonCons);
-            buttonCons.gridx++;
+            b.setSize(b.getWidth(), 50);
+            buttonsPanel.add(b);
         }
-        buttonCons.setGridXY(0, 0);
+        mainPanel.add(this.buttonsPanel);
 
         frame.add(this.mainPanel);
         frame.pack();
         frame.setSize(600, 400);
         frame.setResizable(true);
         frame.setVisible(true);
+    }
+
+    @Override
+    public void shift(int screen) {
+        switch (screen) {
+            case Consts.STUDENT_SEARCH:
+                AdminPanel ap = new AdminPanel();
+                ap.setLastScreen(this.getCurrentScreen());
+                ap.go();
+                break;
+            case Consts.RENTAL_SEARCH:
+            
+                break;
+            case Consts.UPDATE_INVENTORY:
+            
+                break;
+            default:
+                System.out.println("Invalid screen shift to screen " + screen + " attempted");
+                break;
+        }
     }
 }
