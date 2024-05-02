@@ -47,5 +47,5 @@ public class RentalHandler {
         return false;
     }
 
-    // You can add other methods like updateRentalInfo if needed
+    
 }

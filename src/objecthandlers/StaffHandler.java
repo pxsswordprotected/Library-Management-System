@@ -28,4 +28,13 @@ public class StaffHandler {
         }
         return false; 
     }
+    
+    public boolean updateStaffInfo(int uID, String firstName, String lastName, String email) {
+        String query = "UPDATE Person SET name = '" + firstName + " " + lastName + "', email = '" + email + "' WHERE uID = " + uID;
+        int rowsAffected = sqlUtil.executeUpdate(query);
+        if (rowsAffected > 0) {
+            return true;
+        }
+        return false;
+    }
 }

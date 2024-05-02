@@ -34,4 +34,5 @@ public class Movie extends Inventory{
     public void setProducer(String producer) {
         this.producer = producer;
     }
+
 }
