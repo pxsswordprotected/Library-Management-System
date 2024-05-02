@@ -8,13 +8,24 @@ public class Book extends Inventory {
     private int isbn;
     private String publisher;
     private String author;
+    private int id; 
 
-    public Book(String genre, String title, int yr, int isbn, String publisher, String author) {
+
+    public Book(String genre, String title, int yr,int id, int isbn, String publisher, String author) {
         super(genre, title, yr);
         this.isbn = isbn;
         this.publisher = publisher;
         this.author = author;
+        this.id = id;
     }
+        // Getter and setters
+        public int getID() {
+            return id;
+        }
+    
+        public void setID(int id) {
+            this.id = id;
+        }
 
     public int getISBN() {
         return isbn;

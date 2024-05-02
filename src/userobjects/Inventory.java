@@ -99,7 +99,7 @@ public class Inventory {
         inventory.get(0).add(new Inventory(b.getId(), b.getGenre(), b.getTitle(), b.getYear(), BOOK, b.getISBN(), b.getPublisher(), b.getAuthor()));
     }
     public void addMovieToInventory(Movie m) {
-        inventory.get(1).add(new Inventory(m.getId(), m.getGenre(), m.getTitle(), m.getYear(), MOVIE, m.getISAN(), m.getDirector(), m.getProducer()));
+        inventory.get(1).add(new Inventory(m.getId(), m.getGenre(), m.getTitle(), m.getYear(), MOVIE, m.getISAN(), m.getDirector(), m.getStudio()));
     }
     public void checkOut() {
         this.isRentedOut = true;

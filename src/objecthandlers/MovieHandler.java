@@ -22,7 +22,7 @@ public class MovieHandler {
         
         // Add movie to Movie table
         String insertMovieQuery = "INSERT INTO Movie (ID, ISAN, Director, Studio) VALUES "
-                + "(" + movie.getID() + ", " + movie.getISAN() + ", '" + movie.getDirector() + "', '" + movie.getProducer() + "')";
+                + "(" + movie.getID() + ", " + movie.getISAN() + ", '" + movie.getDirector() + "', '" + movie.getStudio() + "')";
         sqlUtil.executeUpdate(insertMovieQuery);
         
         // Close connection
