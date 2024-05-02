@@ -15,6 +15,6 @@ public class Consts {
     static final int STUDENT_PANEL = 5;
     static final int STUDENT_SEARCH = 6;
     static final int RENTAL_SEARCH = 7;
-    static final int INVENTORY_SEARCH = 8;
-    static final int UPDATE_INVENTORY = 9;
+    static final int BOOK_SEARCH = 8;
+    static final int MOVIE_SEARCH = 9;
 }

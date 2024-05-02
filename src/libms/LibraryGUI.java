@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 //#endregion
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -25,7 +26,7 @@ public class LibraryGUI extends Consts {
 
     // #region Instance Variables
     private JFrame frame;
-    private JPanel mainPanel, titlePanel, buttonsPanel, loginPanel, usrPanel, pwdPanel, loginButtonPanel;
+    private JPanel mainPanel, titlePanel, buttonsPanel, loginPanel, loginButtonPanel;
     private JButton backButton, studentButton, staffButton, loginButton;
     private JLabel titleLabel, usrLabel, pwdLabel, loginLabel, loginStatusLabel;
     private LibraryConstraints mainConstraints, loginConstraints, buttonConstraints;
@@ -41,8 +42,6 @@ public class LibraryGUI extends Consts {
         this.titleLabel = new JLabel("", JLabel.CENTER);
         this.buttonsPanel = new JPanel();
         this.loginPanel = new JPanel();
-        this.usrPanel = new JPanel();
-        this.pwdPanel = new JPanel();
         this.loginButtonPanel = new JPanel();
         this.mainConstraints = new LibraryConstraints();
         this.loginConstraints = new LibraryConstraints();
@@ -63,7 +62,6 @@ public class LibraryGUI extends Consts {
     public void go() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("DBMU Library");
-        frame.setLayout(new GridLayout(1, 1));
         mainPanel.setLayout(new GridBagLayout());
         mainConstraints.setGridXY(0, 0);
         mainConstraints.anchor = GridBagConstraints.CENTER;
@@ -77,8 +75,6 @@ public class LibraryGUI extends Consts {
 
         buttonsPanel.setLayout(new GridBagLayout());
         loginPanel.setLayout(new GridBagLayout());
-        usrPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        pwdPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         loginButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         loginConstraints.setGridXY(0, 0);
@@ -93,30 +89,35 @@ public class LibraryGUI extends Consts {
                 buttonsPanel.removeAll();
                 mainPanel.remove(buttonsPanel);
                 mainPanel.revalidate();
+                loginConstraints.insets = new Insets(5, 10, 0, 10);
 
                 loginLabel.setText("Enter your Student ID and password");
+                loginConstraints.gridwidth = 2;
                 loginPanel.add(loginLabel, loginConstraints);
+                loginConstraints.gridwidth = 1;
+
                 usrLabel.setText("Student ID: ");
-                usrPanel.add(usrLabel, FlowLayout.LEFT);
-                usrPanel.add(usrField);
-                pwdLabel.setText("Password:   ");
-                pwdPanel.add(pwdLabel, FlowLayout.LEFT);
-                pwdPanel.add(pwdField);
-
+                usrLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                 loginConstraints.setGridXY(0, 1);
-                loginPanel.add(usrPanel, loginConstraints);
+                loginPanel.add(usrLabel, loginConstraints);
+                loginConstraints.setGridXY(1, 1);
+                loginPanel.add(usrField, loginConstraints);
 
+                pwdLabel.setText("  Password: ");
+                pwdLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                 loginConstraints.setGridXY(0, 2);
-                loginPanel.add(pwdPanel, loginConstraints);
+                loginPanel.add(pwdLabel, loginConstraints);
+                loginConstraints.setGridXY(1, 2);
+                loginPanel.add(pwdField, loginConstraints);
 
                 loginConstraints.setGridXY(0, 3);
-                loginConstraints.fill = GridBagConstraints.NONE;
-                loginButtonPanel.add(backButton, loginConstraints);
-                loginButtonPanel.add(loginButton, loginConstraints);
+                loginConstraints.gridwidth = 2;
+                loginButtonPanel.add(backButton);
+                loginButtonPanel.add(loginButton);
                 loginPanel.add(loginButtonPanel, loginConstraints);
 
-                loginConstraints.setGridXY(0, 0);
                 mainConstraints.setGridXY(0, 1);
+                loginConstraints.setGridXY(0, 0);
                 mainPanel.add(loginPanel, mainConstraints);
                 mainPanel.revalidate();
                 mainPanel.repaint();
@@ -129,34 +130,41 @@ public class LibraryGUI extends Consts {
             public void actionPerformed(ActionEvent e) {
                 setCurrentScreen(Consts.STAFF_LOGIN);
                 buttonsPanel.removeAll();
-                loginPanel.removeAll();
                 mainPanel.remove(buttonsPanel);
                 mainPanel.revalidate();
-                mainPanel.repaint();
+                loginConstraints.insets = new Insets(5, 10, 0, 10);
 
                 loginLabel.setText("Enter your Staff ID and password");
+                loginConstraints.gridwidth = 2;
                 loginPanel.add(loginLabel, loginConstraints);
-                usrLabel.setText("Staff ID:");
-                usrPanel.add(usrLabel);
-                usrPanel.add(usrField);
-                pwdLabel.setText("Password:");
-                pwdPanel.add(pwdLabel);
-                pwdPanel.add(pwdField);
+                loginConstraints.gridwidth = 1;
 
+                usrLabel.setText("  Staff ID: ");
+                loginConstraints.anchor = GridBagConstraints.LINE_END;
                 loginConstraints.setGridXY(0, 1);
-                loginPanel.add(usrPanel, loginConstraints);
+                loginPanel.add(usrLabel, loginConstraints);
+                loginConstraints.anchor = GridBagConstraints.CENTER;
+                loginConstraints.setGridXY(1, 1);
+                loginPanel.add(usrField, loginConstraints);
 
+                pwdLabel.setText("  Password: ");
+                loginConstraints.anchor = GridBagConstraints.LINE_END;
                 loginConstraints.setGridXY(0, 2);
-                loginPanel.add(pwdPanel, loginConstraints);
+                loginPanel.add(pwdLabel, loginConstraints);
+                loginConstraints.anchor = GridBagConstraints.CENTER;
+                loginConstraints.setGridXY(1, 2);
+                loginPanel.add(pwdField, loginConstraints);
 
                 loginConstraints.setGridXY(0, 3);
-                loginConstraints.fill = GridBagConstraints.NONE;
-                loginButtonPanel.add(backButton, loginConstraints);
-                loginButtonPanel.add(loginButton, loginConstraints);
+                loginConstraints.gridwidth = 2;
+                loginButtonPanel.add(backButton);
+                loginButtonPanel.add(loginButton);
                 loginPanel.add(loginButtonPanel, loginConstraints);
 
-                loginConstraints.setGridXY(0, 0);
                 mainConstraints.setGridXY(0, 1);
+                loginConstraints.setGridXY(0, 0);
+                loginPanel.revalidate();
+                loginPanel.repaint();
                 mainPanel.add(loginPanel, mainConstraints);
                 mainPanel.revalidate();
                 mainPanel.repaint();
@@ -201,7 +209,8 @@ public class LibraryGUI extends Consts {
                     // #region For when i have database access
                     switch (currentScreen) {
                         case Consts.STUDENT_LOGIN:
-                            // send to library database
+                            shift(Consts.STUDENT_PANEL);
+                            frame.dispose();
                             break;
 
                         case Consts.STAFF_LOGIN:
@@ -214,8 +223,7 @@ public class LibraryGUI extends Consts {
                             break;
                     }
                     // #endregion
-                } 
-                else { // Login failure
+                } else { // Login failure
                     loginStatusLabel.setText("Sign in failed! Double check your User ID/Password.");
                     loginStatusLabel.setForeground(Color.RED);
                 }
@@ -241,7 +249,8 @@ public class LibraryGUI extends Consts {
                 ap.go();
                 break;
             case Consts.STUDENT_PANEL:
-
+                StudentPanel sp = new StudentPanel();
+                sp.go();
                 break;
             default:
                 System.out.println("Invalid screen shift to screen " + screen + " attempted");
@@ -256,7 +265,7 @@ public class LibraryGUI extends Consts {
     public int getLastScreen() {
         return this.lastScreen;
     }
-    
+
     public int getCurrentScreen() {
         return this.currentScreen;
     }
@@ -288,17 +297,16 @@ public class LibraryGUI extends Consts {
         }
 
         public void setup() {
-            this.insets = new Insets(5,5,5,5);
-            this.setGridXY(0,0);
+            this.insets = new Insets(5, 5, 5, 5);
+            this.setGridXY(0, 0);
             this.anchor = GridBagConstraints.CENTER;
         }
 
         public void reset() {
-            this.insets = new Insets(5,5,5,5);
+            this.insets = new Insets(5, 5, 5, 5);
             this.anchor = GridBagConstraints.CENTER;
         }
     }
-
 
     public static void main(String[] args) {
         LibraryGUI gui = new LibraryGUI();
