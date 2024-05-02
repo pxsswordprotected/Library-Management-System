@@ -17,7 +17,7 @@ public class SQLUtil {
     private Connection con;
     private Statement stm;
 
-    private Connection getConnection() {
+    public Connection getConnection() {
         try {
             if (con == null || con.isClosed()) {
                 String url = "jdbc:mysql://localhost:3306/Library?allowMultiQueries=true";
