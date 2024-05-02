@@ -1,5 +1,6 @@
 package libms;
 
+import java.awt.FlowLayout;
 //#region
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,14 +27,18 @@ public class AdminMenuBar extends AdminPanel {
     // #region Instance Variables
     private JFrame frame;
     private JMenuBar menuBar;
-    private JMenu toolsMenu, addInvItemMenu;
-    private JMenuItem addStudentItem, addRentalItem, addBookItem, addMovieItem;
+    private JMenu fileMenu, editMenu, toolsMenu, addInvItemMenu;
+    private JMenuItem exitItem, updateSelf, addStudentItem, addRentalItem, addBookItem, addMovieItem;
     // #endregion
 
     public AdminMenuBar(JFrame frame) {
         this.frame = frame;
         this.menuBar = new JMenuBar();
-        this.toolsMenu = new JMenu("Tools");
+        this.fileMenu = new JMenu("File");
+        this.editMenu = new JMenu("Edit");
+        this.toolsMenu = new JMenu("Admin Tools");
+        this.exitItem = new JMenuItem("Log Out");
+        this.updateSelf = new JMenuItem("Update Admin Profile");
         this.addStudentItem = new JMenuItem("New Student");
         this.addRentalItem = new JMenuItem("New Rental");
         this.addInvItemMenu = new JMenu("Add to inventory");
@@ -43,17 +48,23 @@ public class AdminMenuBar extends AdminPanel {
     }
 
     public void go() {
+        fileMenu.add(exitItem);
+        editMenu.add(updateSelf);
         toolsMenu.add(addStudentItem);
         toolsMenu.add(addRentalItem);
         toolsMenu.add(addInvItemMenu);
         addInvItemMenu.add(addBookItem);
         addInvItemMenu.add(addMovieItem);
 
+        exitItem.addActionListener(new ExitListener());
+        updateSelf.addActionListener(new UpdateListener());
         addStudentItem.addActionListener(new NewStudentListener());
         addRentalItem.addActionListener(new NewRentalListener());
         addBookItem.addActionListener(new NewBookListener());
         addMovieItem.addActionListener(new NewMovieListener());
 
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
         menuBar.add(toolsMenu);
         frame.setJMenuBar(menuBar);
     }
@@ -93,9 +104,12 @@ public class AdminMenuBar extends AdminPanel {
             this.fieldCons = new LibraryConstraints();
             this.buttonCons = new LibraryConstraints();
 
-            this.labels = new JLabel[] { this.studentFName, this.studentLName, this.studentID, this.studentEmail, this.studentPassword };
-            this.fields = new JTextField[] { this.sFNField, this.sLNField, this.sIDField, this.sEmlField, this.sPwdField };
-            this.constraints = new LibraryConstraints[] { this.frameCons, this.mainCons, this.textCons, this.fieldCons, this.buttonCons };
+            this.labels = new JLabel[] { this.studentFName, this.studentLName, this.studentID, this.studentEmail,
+                    this.studentPassword };
+            this.fields = new JTextField[] { this.sFNField, this.sLNField, this.sIDField, this.sEmlField,
+                    this.sPwdField };
+            this.constraints = new LibraryConstraints[] { this.frameCons, this.mainCons, this.textCons, this.fieldCons,
+                    this.buttonCons };
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -416,6 +430,84 @@ public class AdminMenuBar extends AdminPanel {
             addMovie.setSize(280, 300);
             addMovie.setResizable(true);
             addMovie.setVisible(true);
+        }
+    }
+
+    class ExitListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
+    }
+
+    class UpdateListener implements ActionListener {
+        private JDialog updateSelf;
+        private JPanel mainPanel;
+        private JLabel firstName, lastName, email;
+        private JTextField firstNameField, lastNameField, emailField;
+        private JLabel[] labels;
+        private JTextField[] fields;
+        private JButton create, cancel;
+        private LibraryConstraints mainCons;
+
+        public UpdateListener() {
+            this.updateSelf = new JDialog(getFrame());
+            this.mainPanel = new JPanel();
+            this.email = new JLabel("Email: ");
+            this.firstName = new JLabel("First Name: ");
+            this.lastName = new JLabel("Last Name: ");
+            this.emailField = new JTextField(10);
+            this.firstNameField = new JTextField(10);
+            this.lastNameField = new JTextField(10);
+            this.create = new JButton("Update");
+            this.cancel = new JButton("Cancel");
+            this.mainCons = new LibraryConstraints();
+
+            this.labels = new JLabel[] { this.firstName, this.lastName, this.email };
+            this.fields = new JTextField[] { this.firstNameField, this.lastNameField, this.emailField };
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            updateSelf.setTitle("Update Personal Info");
+            updateSelf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            mainPanel.setLayout(new GridBagLayout());
+            mainCons.insets = new Insets(5, 5, 5, 5);
+            mainCons.setGridXY(0, 0);
+            mainCons.anchor = GridBagConstraints.CENTER;
+
+            cancel.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    updateSelf.dispose();
+                }
+            });
+
+            for (int i = 0; i < labels.length; i++) {
+                mainCons.setGridXY(0, i);
+                mainCons.anchor = GridBagConstraints.LINE_START;
+                mainPanel.add(labels[i], mainCons);
+
+                mainCons.setGridXY(1, i);
+                mainCons.anchor = GridBagConstraints.LINE_END;
+                mainPanel.add(fields[i], mainCons);
+            }
+
+            mainCons.setGridXY(0, 3);
+            mainCons.gridwidth = 2;
+            mainCons.anchor = GridBagConstraints.CENTER;
+            JPanel b = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            b.add(create);
+            b.add(cancel);
+            mainPanel.add(b, mainCons);
+
+            JPanel superPanel = new JPanel(new GridBagLayout());
+            LibraryConstraints superCons = new LibraryConstraints();
+            superCons.insets = new Insets(25,25,25,25);
+            superPanel.add(this.mainPanel, superCons);
+
+            updateSelf.add(superPanel);
+            updateSelf.pack();
+            updateSelf.validate();
+            updateSelf.setResizable(true);
+            updateSelf.setVisible(true);
         }
     }
 }
