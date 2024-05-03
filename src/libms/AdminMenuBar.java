@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -17,6 +19,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 //#endregion
+
+import objecthandlers.BookHandler;
+import objecthandlers.MovieHandler;
+import userobjects.Book;
+import userobjects.Movie;
 
 /**
  *
@@ -300,6 +307,18 @@ public class AdminMenuBar extends AdminPanel {
             fieldPanel.setLayout(new GridBagLayout());
             buttonPanel.setLayout(new GridBagLayout());
 
+            Random random = new Random();
+            String yearText = year.getText();
+            String isbnText = isbn.getText();
+             int yearValue = Integer.parseInt(yearText);
+             int isbnValue = Integer.parseInt(isbnText);
+            int randomNumber = random.nextInt(1000);
+            BookHandler handler = new BookHandler();
+
+            Book newBook = new Book(genre.getText(),title.getText(), yearValue, randomNumber, isbnValue, publisher.getText(), author.getText());
+            handler.addBook(newBook);
+            
+
             for (LibraryConstraints l : contraints) {
                 l.insets = new Insets(5, 5, 5, 5);
                 l.setGridXY(0, 0);
@@ -344,7 +363,7 @@ public class AdminMenuBar extends AdminPanel {
     class NewMovieListener implements ActionListener {
         private JDialog addMovie;
         private JPanel textPanel, fieldPanel, mainPanel, buttonPanel;
-        private JLabel title, genre, year, producer, director, isan;
+        private JLabel title, genre, year, studio, director, isan;
         private JTextField tField, gField, yField, pField, dField, iField;
         private JLabel[] labels;
         private JTextField[] fields;
@@ -361,7 +380,7 @@ public class AdminMenuBar extends AdminPanel {
             this.title = new JLabel("Title: ");
             this.genre = new JLabel("Genre: ");
             this.year = new JLabel("Year: ");
-            this.producer = new JLabel("Producer: ");
+            this.studio = new JLabel("Studio: ");
             this.director = new JLabel("Director: ");
             this.isan = new JLabel("ISAN: ");
             this.tField = new JTextField(10);
@@ -378,7 +397,7 @@ public class AdminMenuBar extends AdminPanel {
             this.fieldCons = new LibraryConstraints();
             this.buttonCons = new LibraryConstraints();
 
-            this.labels = new JLabel[] { this.title, this.director, this.genre, this.year, this.producer, this.isan };
+            this.labels = new JLabel[] { this.title, this.director, this.genre, this.year, this.studio, this.isan };
             this.fields = new JTextField[] { this.tField, this.dField, this.gField, this.yField, this.pField,
                     this.iField };
             this.contraints = new LibraryConstraints[] { frameCons, mainCons, textCons, fieldCons, buttonCons };
@@ -392,6 +411,20 @@ public class AdminMenuBar extends AdminPanel {
             textPanel.setLayout(new GridBagLayout());
             fieldPanel.setLayout(new GridBagLayout());
             buttonPanel.setLayout(new GridBagLayout());
+
+            Random random = new Random();
+            String yearText = year.getText();
+            String isanText = isan.getText();
+             int yearValue = Integer.parseInt(yearText);
+             int isanValue = Integer.parseInt(isanText);
+            int randomNumber = random.nextInt(1000);
+            MovieHandler handler = new MovieHandler();
+
+            Movie newMovie = new Movie(genre.getText(),title.getText(), yearValue, randomNumber, isanValue, director.getText(), studio.getText());
+            handler.addMovie(newMovie);
+
+
+
 
             for (LibraryConstraints l : contraints) {
                 l.insets = new Insets(5, 5, 5, 5);
