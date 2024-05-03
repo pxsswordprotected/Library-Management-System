@@ -1,39 +1,30 @@
 package libms;
-import userobjects.*;
-import utils.*;
-import objecthandlers.*;
-
-//#region IMPORTS
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-//#endregion
 import javax.swing.SwingConstants;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import objecthandlers.BookHandler;
+import objecthandlers.StaffHandler;
+import objecthandlers.StudentHandler;
 
 /**
  *
  * @author Grant Swift
  */
-public class LibraryGUI extends Consts {
+public class LibraryGUI {
 
-    // #region Instance Variables
     private JFrame frame;
     private JPanel mainPanel, titlePanel, buttonsPanel, loginPanel, loginButtonPanel;
     private JButton backButton, studentButton, staffButton, loginButton;
@@ -43,7 +34,6 @@ public class LibraryGUI extends Consts {
     private JPasswordField pwdField;
     private int currentScreen, lastScreen;
     private BookHandler bookHandler;
-    // #endregion
 
 
     public LibraryGUI() {
@@ -216,7 +206,6 @@ public class LibraryGUI extends Consts {
         });
 
         loginButton.addActionListener(new ActionListener() {
-            @SuppressWarnings("unused")
             public void actionPerformed(ActionEvent e) {
                 loginConstraints.setGridXY(0, 4);
                 String username = usrField.getText();
@@ -228,15 +217,15 @@ public class LibraryGUI extends Consts {
                 if (stuhandle.login(username, password) == true) {
                     loginStatusLabel.setText("Success! Redirecting...");
                     loginStatusLabel.setForeground(Color.GREEN);
-                    // #region For when i have database acces
-                            shift(Consts.STUDENT_PANEL);
-                            frame.dispose();
-                    }
-                    if (stfhand.login(username, password) == true ) {
-                        shift(Consts.ADMIN_PANEL);
-                        frame.dispose();
-                    }
-                    // #endregion
+                    shift(Consts.STUDENT_PANEL);
+                    frame.dispose();
+                }
+                else if (stfhand.login(username, password) == true) {
+                    loginStatusLabel.setText("Success! Redirecting...");
+                    loginStatusLabel.setForeground(Color.GREEN);
+                    shift(Consts.ADMIN_PANEL);
+                    frame.dispose();
+                }
                  else { // Login failure
                     loginStatusLabel.setText("Sign in failed! Double check your User ID/Password.");
                     loginStatusLabel.setForeground(Color.RED);
@@ -323,6 +312,8 @@ public class LibraryGUI extends Consts {
     }
 
     public static void main(String[] args) {
+        StaffHandler stf = new StaffHandler();
+        stf.addStaff(Consts.admin);
         LibraryGUI gui = new LibraryGUI();
         gui.go();
     }

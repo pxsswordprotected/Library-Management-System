@@ -206,7 +206,7 @@ public class AdminSearchPage extends LibraryGUI {
             Student stu;
             Rental ren;
             switch (searchType) {
-                case STUDENT_SEARCH:
+                case Consts.STUDENT_SEARCH:
                     StudentHandler stuHandler = new StudentHandler();
                     searchVal = input.getText();
                     query = String.format("SELECT * FROM Student WHERE name = %s ", searchVal);
@@ -234,7 +234,7 @@ public class AdminSearchPage extends LibraryGUI {
                     result = new JTable(res, tableColumns);
                     break;
             
-                case RENTAL_SEARCH:
+                case Consts.RENTAL_SEARCH:
                     RentalHandler renHandler = new RentalHandler();
                     searchVal = input.getText();
                     query = String.format("SELECT * FROM Rental WHERE name = %s ", searchVal);

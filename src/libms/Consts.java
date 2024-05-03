@@ -1,12 +1,13 @@
 package libms;
+
+import userobjects.Staff;
+
 /**
  * 
  * @author Grant Swift
  */
-
-import java.util.ArrayList;
-
 public class Consts {
+    static final Staff admin = new Staff(000000000, "admin", null, "admin", "admin");
     static final int NULL_SCREEN = 0;
     static final int MAIN_MENU = 1;
     static final int STUDENT_LOGIN = 2;

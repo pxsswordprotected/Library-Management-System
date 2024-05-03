@@ -37,4 +37,10 @@ public class StaffHandler {
         }
         return false;
     }
+
+    public int addStaff(Staff staff) {
+        String cmdTemplate = "INSERT INTO Staff(uID, name, email, userName, password) VALUES (%d, '%s', '%s', '%s', %s)";
+        String stmStr = String.format(cmdTemplate, staff.getUserID(), staff.getName(), staff.getEmail(), staff.getUserName(), staff.getPassword());
+        return sqlUtil.executeUpdate(stmStr);
+    }
 }
