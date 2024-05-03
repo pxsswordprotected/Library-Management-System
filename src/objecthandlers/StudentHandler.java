@@ -51,4 +51,8 @@ public class StudentHandler {
         }
         return students;
     }
+
+    public SQLUtil getSqlUtil() {
+        return this.sqlUtil;
+    }
 }
