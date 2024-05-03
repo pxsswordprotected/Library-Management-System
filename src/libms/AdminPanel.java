@@ -1,5 +1,6 @@
 package libms;
 
+import objecthandlers.*;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -27,7 +28,7 @@ public class AdminPanel extends LibraryGUI {
     public AdminPanel() {
         this.frame = new JFrame();
         this.panel = new JPanel(new GridBagLayout());
-        this.welcome = new JLabel("<html><B>Welcome, [Insert Admin Name]!</b></html>");
+        this.welcome = new JLabel("<html><B>Welcome!</b></html>");
         this.studentSearch = new JButton("Search for student");
         this.rentalSearch = new JButton("Search for rental");
         this.cons = new LibraryConstraints();

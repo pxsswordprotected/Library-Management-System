@@ -27,7 +27,7 @@ public class StudentPanel extends LibraryGUI {
     public StudentPanel() {
         this.frame = new JFrame();
         this.panel = new JPanel(new GridBagLayout());
-        this.welcome = new JLabel("<html><B>Welcome, [Insert Student Name]!</b></html>");
+        this.welcome = new JLabel("<html><B>Welcome!</b></html>");
         this.bookSearch = new JButton("Find a Book");
         this.movieSearch = new JButton("Find a Movie");
         this.cons = new LibraryConstraints();

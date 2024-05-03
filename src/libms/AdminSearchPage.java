@@ -1,7 +1,8 @@
 package libms;
 
-import java.awt.Dimension;
+
 //#region
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.MouseAdapter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,8 +21,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-//#endregion
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.SwingConstants;
+import objecthandlers.*;
+import userobjects.*;
+import utils.SQLUtil;
+//#endregion
+
 
 /**
  *
@@ -36,6 +49,9 @@ public class AdminSearchPage extends LibraryGUI {
     private JTextField input;
     private JScrollPane scrollPane;
     private JTable result;
+    private String[] tableColumns;
+    private List<Student> studentData;
+    private List<Rental> rentalData;
     // #endregion
 
     /**
@@ -61,6 +77,7 @@ public class AdminSearchPage extends LibraryGUI {
         this.result = new JTable();
         this.scrollPane = new JScrollPane(this.result);
         this.input = new JTextField(30);
+
         this.go(sT);
     }
 
@@ -69,6 +86,8 @@ public class AdminSearchPage extends LibraryGUI {
         switch (sT) {
             case Consts.STUDENT_SEARCH:
                 this.setCurrentScreen(Consts.STUDENT_SEARCH);
+                this.tableColumns = new String[]{"Student ID", "Name", "Classification", "Email", "Rental #"};
+
                 frame.setTitle("Student Search");
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -118,6 +137,8 @@ public class AdminSearchPage extends LibraryGUI {
 
             case Consts.RENTAL_SEARCH:
                 this.setCurrentScreen(Consts.RENTAL_SEARCH);
+                this.tableColumns = new String[]{"Rental #", "Assigned Student", "Due Date"};
+
                 frame.setTitle("Rental Search");
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -168,6 +189,81 @@ public class AdminSearchPage extends LibraryGUI {
             default:
                 System.out.println("You should not be calling an admin search menu from this page.");
                 break;
+        }
+    }
+
+    public class AdminSearchButton implements ActionListener {
+        private int searchType;
+        public AdminSearchButton(int sT){
+            this.searchType = sT;
+        }
+        
+        public void actionPerformed(ActionEvent e) {
+            String query;
+            String searchVal;
+            Object[][] res;
+            Object[] data;
+            Student stu;
+            Rental ren;
+            switch (searchType) {
+                case STUDENT_SEARCH:
+                    StudentHandler stuHandler = new StudentHandler();
+                    searchVal = input.getText();
+                    query = String.format("SELECT * FROM Student WHERE name = %s ", searchVal);
+                    res = new Object[studentData.size()][5];
+                    try {
+                        ResultSet resultSet = stuHandler.getSqlUtil().executeQuery(query);
+                        while (resultSet.next()) {
+                            int uID = resultSet.getInt("uID");
+                            String name = resultSet.getString("name");
+                            String email = resultSet.getString("email");
+                            String password = resultSet.getString("password");
+                            int classification = resultSet.getInt("Classification");
+                            studentData.add(new Student(uID, name, email, password, classification));
+                        }
+                        for (int i = 0; i < studentData.size(); i++) {
+                            stu = studentData.get(i);
+                            data = new Object[]{stu.getuID(), stu.getName(), stu.getClassification(), stu.getEmail(), stu.getRentalNumber()};
+                            for (int k = 0; k < 5; k++) {
+                                res[i][k] = data[k];
+                            }
+                        }
+                    } catch (SQLException e1) {
+                        Logger.getLogger(AdminSearchButton.class.getName()).log(Level.SEVERE, null, e1);
+                    }
+                    result = new JTable(res, tableColumns);
+                    break;
+            
+                case RENTAL_SEARCH:
+                    RentalHandler renHandler = new RentalHandler();
+                    searchVal = input.getText();
+                    query = String.format("SELECT * FROM Rental WHERE name = %s ", searchVal);
+                    res = new Object[rentalData.size()][3];
+                    try {
+                        ResultSet resultSet = renHandler.getSqlUtil().executeQuery(query);
+                        while (resultSet.next()) {
+                            int rNo = resultSet.getInt("uID");
+                            double lateFee = resultSet.getDouble("lateFee");
+                            Date rentalDate = resultSet.getDate("rentalDate");
+                            Date dueDate = resultSet.getDate("dueDate");
+                            Date returnedDate = resultSet.getDate("returnedDate");
+                            int studentID = resultSet.getInt("sUID");
+                            int staffID = resultSet.getInt("stfUID");
+                            rentalData.add(new Rental(rNo, lateFee, rentalDate, dueDate, returnedDate, studentID, staffID));
+                        }
+                        for (int i = 0; i < rentalData.size(); i++) {
+                            ren = rentalData.get(i);
+                            data = new Object[]{ren.getRentalNumber(), ren.getLateFee(), ren.getRentalDate(), ren.getReturnDate(), ren.getReturnedDate(), ren.getStudentID(), ren.getStaffID()};
+                            for (int k = 0; k < 7; k++) {
+                                res[i][k] = data[k];
+                            }
+                        }
+                    } catch (SQLException e1) {
+                        Logger.getLogger(AdminSearchButton.class.getName()).log(Level.SEVERE, null, e1);
+                    }
+                    result = new JTable(res, tableColumns);
+                    break;
+            }
         }
     }
 

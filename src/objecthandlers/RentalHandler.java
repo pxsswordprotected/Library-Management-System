@@ -1,9 +1,16 @@
 package objecthandlers;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import userobjects.Rental;
+import userobjects.Student;
 import utils.SQLUtil;
 
 public class RentalHandler {
@@ -47,5 +54,29 @@ public class RentalHandler {
         return false;
     }
 
+    public List<Rental> getAllRentals() {
+        List<Rental> rentals = new ArrayList<>();
+        String query = "SELECT * FROM Rental";
+        try {
+            ResultSet resultSet = sqlUtil.executeQuery(query);
+            while (resultSet.next()) {
+                int rNo = resultSet.getInt("uID");
+                double lateFee = resultSet.getDouble("lateFee");
+                Date rentalDate = resultSet.getDate("rentalDate");
+                Date dueDate = resultSet.getDate("dueDate");
+                Date returnedDate = resultSet.getDate("returnedDate");
+                int studentID = resultSet.getInt("sUID");
+                int staffID = resultSet.getInt("stfUID");
+                rentals.add(new Rental(rNo, lateFee, rentalDate, dueDate, returnedDate, studentID, staffID));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RentalHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rentals;
+    }
+
+    public SQLUtil getSqlUtil() {
+        return this.sqlUtil;
+    }
     
 }
