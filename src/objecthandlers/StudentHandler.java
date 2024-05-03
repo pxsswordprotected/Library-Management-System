@@ -51,4 +51,18 @@ public class StudentHandler {
         }
         return students;
     }
+    public boolean login(String uID, String password) {
+        String query = "SELECT * FROM Students WHERE uID = '" + uID + "' AND password = '" + password + "'";
+        try {
+            ResultSet resultSet = sqlUtil.executeQuery(query);
+            if (resultSet.next()) {
+                return true;
+            }
+        }
+ catch (SQLException ex) {
+            Logger.getLogger(StaffHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false; 
+    }
+
 }

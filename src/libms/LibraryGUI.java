@@ -1,4 +1,7 @@
 package libms;
+import userobjects.*;
+import utils.*;
+import objecthandlers.*;
 
 //#region IMPORTS
 import java.awt.Color;
@@ -18,6 +21,12 @@ import javax.swing.JTextField;
 //#endregion
 import javax.swing.SwingConstants;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author Grant Swift
@@ -33,9 +42,16 @@ public class LibraryGUI extends Consts {
     private JTextField usrField;
     private JPasswordField pwdField;
     private int currentScreen, lastScreen;
+    private BookHandler bookHandler;
     // #endregion
 
+
     public LibraryGUI() {
+
+        bookHandler = new BookHandler();
+
+
+
         this.frame = new JFrame();
         this.mainPanel = new JPanel();
         this.titlePanel = new JPanel();
@@ -121,6 +137,7 @@ public class LibraryGUI extends Consts {
                 mainPanel.add(loginPanel, mainConstraints);
                 mainPanel.revalidate();
                 mainPanel.repaint();
+
             }
         });
         buttonsPanel.add(studentButton, buttonConstraints);
@@ -202,28 +219,25 @@ public class LibraryGUI extends Consts {
             @SuppressWarnings("unused")
             public void actionPerformed(ActionEvent e) {
                 loginConstraints.setGridXY(0, 4);
+                String username = usrField.getText();
+                String password = new String(pwdField.getPassword());
+                StudentHandler stuhandle = new StudentHandler();
+                StaffHandler stfhand = new StaffHandler();
+
                 // Login success (placeholder condition)
-                if (true) {
+                if (stuhandle.login(username, password) == true) {
                     loginStatusLabel.setText("Success! Redirecting...");
                     loginStatusLabel.setForeground(Color.GREEN);
-                    // #region For when i have database access
-                    switch (currentScreen) {
-                        case Consts.STUDENT_LOGIN:
+                    // #region For when i have database acces
                             shift(Consts.STUDENT_PANEL);
                             frame.dispose();
-                            break;
-
-                        case Consts.STAFF_LOGIN:
-                            shift(Consts.ADMIN_PANEL);
-                            frame.dispose();
-                            break;
-
-                        default:
-                            // unreachable
-                            break;
+                    }
+                    if (stfhand.login(username, password) == true ) {
+                        shift(Consts.ADMIN_PANEL);
+                        frame.dispose();
                     }
                     // #endregion
-                } else { // Login failure
+                 else { // Login failure
                     loginStatusLabel.setText("Sign in failed! Double check your User ID/Password.");
                     loginStatusLabel.setForeground(Color.RED);
                 }
